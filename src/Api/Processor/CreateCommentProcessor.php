@@ -6,9 +6,10 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Api\Resource\CreateComment;
 use App\Entity\Comment;
-use App\Entity\User;
 use App\Entity\Content;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 
 final readonly class CreateCommentProcessor implements ProcessorInterface
@@ -34,7 +35,7 @@ final readonly class CreateCommentProcessor implements ProcessorInterface
         // Rechercher le contenu par son identifiant
         $content = $this->em->getRepository(Content::class)->find($data->content);
         if (!$content) {
-            throw new \InvalidArgumentException('Content not found');
+            throw new InvalidArgumentException('Content not found');
         }
 
         // Créer le commentaire

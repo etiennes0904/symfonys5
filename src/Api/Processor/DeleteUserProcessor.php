@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 
 final readonly class DeleteUserProcessor implements ProcessorInterface
 {
@@ -23,7 +24,7 @@ final readonly class DeleteUserProcessor implements ProcessorInterface
         // Rechercher l'utilisateur par son identifiant
         $user = $this->em->getRepository(User::class)->find($uriVariables['id']);
         if (!$user) {
-            throw new \InvalidArgumentException('User not found');
+            throw new InvalidArgumentException('User not found');
         }
 
         // Supprimer l'utilisateur

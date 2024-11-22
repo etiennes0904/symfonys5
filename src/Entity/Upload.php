@@ -2,15 +2,14 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Doctrine\Trait\UuidTrait;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use App\Api\Action\UploadAction;
+use App\Doctrine\Trait\UuidTrait;
 use App\Enum\TableEnum;
-
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 #[ORM\Table(name: TableEnum::UPLOAD)]
@@ -21,11 +20,14 @@ class Upload
 {
     use UuidTrait;
 
-
-
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
     private ?string $path = null;
+
+    public function __construct()
+    {
+        $this->defineUuid();
+    }
 
     public function getUuid(): ?string
     {
@@ -42,10 +44,5 @@ class Upload
         $this->path = $path;
 
         return $this;
-    }
-
-    public function __construct()
-    {
-        $this->defineUuid();
     }
 }

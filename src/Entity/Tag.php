@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use App\Doctrine\Trait\UuidTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Doctrine\Trait\UuidTrait;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'tag')]
@@ -12,11 +12,14 @@ class Tag
 {
     use UuidTrait;
 
-
-
     #[ORM\Column(type: 'string', unique: true)]
     #[Assert\NotBlank]
     private ?string $name = null;
+
+    public function __construct()
+    {
+        $this->defineUuid();
+    }
 
     public function getUuid(): ?string
     {
@@ -33,10 +36,5 @@ class Tag
         $this->name = $name;
 
         return $this;
-    }
-
-    public function __construct()
-    {
-        $this->defineUuid();
     }
 }

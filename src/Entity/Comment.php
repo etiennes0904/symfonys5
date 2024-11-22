@@ -2,29 +2,29 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Doctrine\Orm\Filter\NumericFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Delete;
-use App\Enum\TableEnum;
-use App\Doctrine\Trait\UuidTrait;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Api\Processor\CreateCommentProcessor;
-use App\Api\Processor\EditCommentProcessor;
 use App\Api\Processor\DeleteCommentProcessor;
+use App\Api\Processor\EditCommentProcessor;
 use App\Api\Resource\CreateComment;
 use App\Api\Resource\EditComment;
 use App\Doctrine\Trait\TimestampableTrait;
+use App\Doctrine\Trait\UuidTrait;
+use App\Enum\TableEnum;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 #[ApiResource()]
@@ -41,7 +41,8 @@ use App\Doctrine\Trait\TimestampableTrait;
 #[ApiFilter(OrderFilter::class, properties: ['createdAt', 'comment'])]
 class Comment
 {
-    use UuidTrait, TimestampableTrait;
+    use UuidTrait;
+    use TimestampableTrait;
 
     #[ORM\Column(type: Types::STRING)]
     #[Assert\NotBlank]

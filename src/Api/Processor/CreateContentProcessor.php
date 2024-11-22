@@ -7,6 +7,7 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Content;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 
 final readonly class CreateContentProcessor implements ProcessorInterface
 {
@@ -23,12 +24,12 @@ final readonly class CreateContentProcessor implements ProcessorInterface
         array $context = [],
     ): Content {
         // Les données envoyées dans le POST sont stockées dans $data
-        // Vous pouvez reprendre la logique de votre commande pour 
+        // Vous pouvez reprendre la logique de votre commande pour
         // créer votre contenu
 
         // Assurez-vous que l'auteur est défini
         if (!$data->author instanceof User) {
-            throw new \InvalidArgumentException('Author must be a valid User entity.');
+            throw new InvalidArgumentException('Author must be a valid User entity.');
         }
 
         // Votre logique pour créer le contenu

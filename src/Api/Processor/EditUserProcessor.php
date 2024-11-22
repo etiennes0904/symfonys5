@@ -7,6 +7,7 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Api\Resource\EditUser;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final readonly class EditUserProcessor implements ProcessorInterface
@@ -27,7 +28,7 @@ final readonly class EditUserProcessor implements ProcessorInterface
         // Rechercher l'utilisateur par son identifiant
         $user = $this->em->getRepository(User::class)->find($uriVariables['id']);
         if (!$user) {
-            throw new \InvalidArgumentException('User not found');
+            throw new InvalidArgumentException('User not found');
         }
 
         // Mettre à jour les informations de l'utilisateur

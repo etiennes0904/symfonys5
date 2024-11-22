@@ -2,32 +2,32 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Doctrine\Orm\Filter\NumericFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Delete;
-use App\Enum\TableEnum;
+use App\Api\Processor\CreateContentProcessor;
+use App\Api\Processor\DeleteContentProcessor;
+use App\Api\Processor\EditContentProcessor;
+use App\Api\Resource\CreateContent;
+use App\Api\Resource\EditContent;
 use App\Doctrine\Trait\TimestampableTrait;
 use App\Doctrine\Trait\UuidTrait;
+use App\Enum\RoleEnum;
+use App\Enum\TableEnum;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Api\Processor\CreateContentProcessor;
-use App\Api\Processor\EditContentProcessor;
-use App\Api\Processor\DeleteContentProcessor;
-use App\Api\Resource\CreateContent;
-use App\Api\Resource\EditContent;
-use App\Enum\RoleEnum;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity]
 #[ORM\Table(name: TableEnum::CONTENT)]
@@ -44,7 +44,8 @@ use Doctrine\Common\Collections\Collection;
 #[ApiFilter(OrderFilter::class, properties: ['createdAt', 'title'])]
 class Content
 {
-    use UuidTrait, TimestampableTrait;
+    use UuidTrait;
+    use TimestampableTrait;
 
     #[ORM\Column]
     #[Assert\NotBlank]
@@ -73,17 +74,22 @@ class Content
     #[ORM\Column(type: Types::INTEGER)]
     public int $views = 0;
 
-    #[ORM\Column(type: Types::STRING, unique: true)]
-    private ?string $slug = null;
-
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'author_uuid', referencedColumnName: 'uuid', nullable: false)]
     public ?User $author = null;
+
+    #[ORM\Column(type: Types::STRING, unique: true)]
+    private ?string $slug = null;
 
     #[ORM\ManyToMany(targetEntity: Tag::class)]
     #[ORM\JoinTable(name: 'content_tags')]
     private Collection $tagsCollection;
 
+    public function __construct()
+    {
+        $this->tagsCollection = new ArrayCollection();
+        $this->defineUuid();
+    }
 
     public function getTitle(): ?string
     {
@@ -224,11 +230,5 @@ class Content
         $this->tagsCollection->removeElement($tag);
 
         return $this;
-    }
-
-    public function __construct()
-    {
-        $this->tagsCollection = new ArrayCollection();
-        $this->defineUuid();
     }
 }

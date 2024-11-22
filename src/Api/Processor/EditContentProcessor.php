@@ -8,6 +8,7 @@ use App\Api\Resource\EditContent;
 use App\Entity\Content;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 
 final readonly class EditContentProcessor implements ProcessorInterface
@@ -27,7 +28,7 @@ final readonly class EditContentProcessor implements ProcessorInterface
         // Rechercher le contenu par son identifiant
         $content = $this->em->getRepository(Content::class)->find($uriVariables['id']);
         if (!$content) {
-            throw new \InvalidArgumentException('Content not found');
+            throw new InvalidArgumentException('Content not found');
         }
 
         // Rechercher l'auteur par son identifiant (par exemple, email ou UUID)

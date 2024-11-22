@@ -25,10 +25,10 @@ final readonly class CreateUserProcessor implements ProcessorInterface
         array $context = [],
     ): User {
         // les datas envoyés dans le POST sont stockés dans $data !
-        // Vous pouvez reprendre la logique de votre commande pour 
+        // Vous pouvez reprendre la logique de votre commande pour
         // créer votre user (avec un mot de passe hashé)
         $user = new User();
-        
+
         // votre logique
 
         return $user;

@@ -2,14 +2,15 @@
 
 namespace App\Command;
 
-use Symfony\Component\Console\Attribute\AsCommand;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Input\InputOption;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Throwable;
 
 #[AsCommand(
     name: 'app:create:user',
@@ -17,12 +18,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 )]
 class CreateUserCommand extends Command
 {
-
-
     public function __construct(
         private EntityManagerInterface $entityManager,
         private UserPasswordHasherInterface $usePasswordHasher,
-    ){
+    ) {
         parent::__construct();
     }
 
@@ -54,13 +53,12 @@ class CreateUserCommand extends Command
             $this->entityManager->flush();
 
             $outputInterface->writeln("Created user with email: {$user->email}");
-            return Command::SUCCESS;
-        }
-        catch (\Throwable $exception) {
 
+            return Command::SUCCESS;
+        } catch (Throwable $exception) {
             $outputInterface->writeln("Error creating user: {$exception->getMessage()}");
 
             return Command::FAILURE;
-            }
+        }
     }
 }

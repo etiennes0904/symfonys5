@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Api\Action;
 
@@ -11,7 +11,6 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 #[AsController]
-
 class UploadAction
 {
     public function __construct(
@@ -29,9 +28,9 @@ class UploadAction
             throw new BadRequestHttpException('Invalid file upload.');
         }
 
-        $path = uniqid().".".$file->getClientOriginalExtension();
+        $path = uniqid() . '.' . $file->getClientOriginalExtension();
 
-        $file->move($this->projectDir.'/public/medias', $path);
+        $file->move($this->projectDir . '/public/medias', $path);
 
         $upload = new Upload();
         $upload->setPath("/medias/{$path}");

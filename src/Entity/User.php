@@ -2,29 +2,29 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Doctrine\Orm\Filter\NumericFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Delete;
-use App\Enum\TableEnum;
-use App\Doctrine\Trait\UuidTrait;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use App\Api\Processor\CreateUserProcessor;
-use App\Api\Processor\EditUserProcessor;
 use App\Api\Processor\DeleteUserProcessor;
+use App\Api\Processor\EditUserProcessor;
 use App\Api\Resource\CreateUser;
 use App\Api\Resource\EditUser;
 use App\Doctrine\Trait\TimestampableTrait;
+use App\Doctrine\Trait\UuidTrait;
+use App\Enum\TableEnum;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 #[ApiResource()]
@@ -40,7 +40,8 @@ use App\Doctrine\Trait\TimestampableTrait;
 #[ApiFilter(OrderFilter::class, properties: ['createdAt', 'firstName', 'lastName'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    use UuidTrait, TimestampableTrait;
+    use UuidTrait;
+    use TimestampableTrait;
 
     #[ORM\Column]
     #[Assert\NotBlank]
@@ -68,6 +69,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'integer', nullable: true)]
     public ?int $age = null;
 
+    public function __construct()
+    {
+        $this->defineUuid();
+    }
+
     public function getUserIdentifier(): string
     {
         return (string)$this->email;
@@ -90,10 +96,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function __construct()
-    {
-        $this->defineUuid();
     }
 }

@@ -8,7 +8,6 @@ use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use const FILTER_VALIDATE_URL;
 use const PATHINFO_EXTENSION;
 use const PHP_URL_PATH;

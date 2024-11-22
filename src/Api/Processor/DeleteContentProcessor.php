@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Content;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 
 final readonly class DeleteContentProcessor implements ProcessorInterface
 {
@@ -23,7 +24,7 @@ final readonly class DeleteContentProcessor implements ProcessorInterface
         // Rechercher le contenu par son identifiant
         $content = $this->em->getRepository(Content::class)->find($uriVariables['id']);
         if (!$content) {
-            throw new \InvalidArgumentException('Content not found');
+            throw new InvalidArgumentException('Content not found');
         }
 
         // Supprimer le contenu

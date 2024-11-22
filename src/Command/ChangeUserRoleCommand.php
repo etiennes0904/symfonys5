@@ -37,6 +37,7 @@ class ChangeUserRoleCommand extends Command
 
         if (!$user) {
             $output->writeln('<error>User not found</error>');
+
             return Command::FAILURE;
         }
 
@@ -44,6 +45,7 @@ class ChangeUserRoleCommand extends Command
         $this->em->flush();
 
         $output->writeln('<info>Role updated successfully</info>');
+
         return Command::SUCCESS;
     }
 }
