@@ -20,5 +20,15 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    # Import processors
+    App\Api\Processor\:
+        resource: '../src/Api/Processor'
+        tags: ['api_platform.state_processor']
+
+    # Import custom actions
+    App\Api\Action\:
+        resource: '../src/Api/Action'
+        tags: ['controller.service_arguments']
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
