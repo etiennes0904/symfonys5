@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <header>
+        <h1>Présentation du Projet CMS Headless</h1>
+    </header>
+    <section class="context">
+        <h2>Contexte</h2>
+        <p>Une entreprise vous contacte pour créer un CMS Headless lui permettant de diffuser des contenus facilement sur l'ensemble de ses canaux.</p>
+    </section>
+    <section class="objective">
+        <h2>Objectif</h2>
+        <p>Développer un CMS Headless permettant la création, la gestion et la distribution de contenus à travers une API. Ce CMS sera utilisé par des sites front-end variés (applications web, mobile) qui consomment les données de manière dynamique.</p>
+    </section>
+    <section class="target-audience">
+        <h2>Public cible</h2>
+        <p>Éditeurs de contenu, administrateurs, développeurs front-end.</p>
+    </section>
+    <section class="scope">
+        <h2>Portée</h2>
+        <p>Le CMS doit fournir une API sécurisée, flexible et performante, permettant la gestion du contenu.</p>
+    </section>
+    <section class="specifications">
+        <h2>Specifications</h2>
+        <ul>
+            <li>Les utilisateurs: nom, prénom, email</li>
+            <li>Les contenus: titre, image de couverture, balises meta, contenu, slug, tags, auteur</li>
+            <li>Les commentaires: commentaire, auteur</li>
+        </ul>
+    </section>
+    <section class="rules">
+        <h2>Règles de publications de contenu</h2>
+        <ul>
+            <li>Les administrateurs: création/édition/suppression de contenu, création/suppression de commentaires, édition/suppression d'utilisateurs</li>
+            <li>Les abonnées: lecture des contenus, création/édition/suppression de commentaires (uniquement les siens)</li>
+            <li>Les simples visiteurs: accès aux contenus</li>
+        </ul>
+    </section>
+    <section class="constraints">
+        <h2>Contraintes techniques</h2>
+        <ul>
+            <li>PHP 8.3</li>
+            <li>Symfony 7.1 (7.2?)</li>
+            <li>Typage fort côté PHP: <code>declare(strict_types=1);</code></li>
+        </ul>
+    </section>
+{% endblock %}
